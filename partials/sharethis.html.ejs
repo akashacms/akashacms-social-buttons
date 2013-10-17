@@ -1,0 +1,28 @@
+<span class="st_sharethis"
+    <% if (typeof urlToShare     !== "undefined") { %>st_url="<%= urlToShare %>"<% } %>
+    <% if (typeof titleToShare   !== "undefined") { %>st_title="<%= titleToShare %>"<% } %>
+    <% if (typeof imageToShare   !== "undefined") { %>st_image="<%= imageToShare %>"<% } %>
+    <% if (typeof summaryToShare !== "undefined") { %>st_summary="<%= summaryToShare %>"<% } %> >
+<% for (var i = 0; i < chiclets.length; i++) {
+    var chiclet = chiclets[i];
+    %><span class="<%= chiclet.className %>" <% 
+        if (chiclet.title)       { %> st_title="<%= chiclet.title %>" <% } %><%
+        if (chiclet.url)         { %> st_url="<%= chiclet.url %>" <% } %><%
+        if (chiclet.displayText) { %> st_displayText="<%= chiclet.displayText %>" <% } %> ><%
+        if (chiclet.imageUrl)    { %><img src="<%= chiclet.imageUrl %>"/><% } %></span><%
+} %>
+<!-- http://support.sharethis.com/customer/portal/articles/464527-customize-appearance -->
+</span>
+<script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+<script type="text/javascript">
+stLight.options({
+    <% if (typeof enableGoogleTracking !== "undefined") { %>tracking:'google',<% } %>
+    <% if (typeof disablePopularShares !== "undefined") { %>doneScreen:'false',<% } %>
+    <% if (typeof disableHoverWidget   !== "undefined") { %>onhover:'false',<% } %>
+    <% if (typeof enableEmbeds         !== "undefined") { %>embeds:'true',<% } %>
+    <% if (typeof headerTitle          !== "undefined") { %>headerTitle:'<%= headerTitle %>',<% } %>
+    <% if (typeof headerFGColor        !== "undefined") { %>headerfg:'<%= headerFGColor %>',<% } %>
+    <% if (typeof headerBGColor        !== "undefined") { %>headerbg:'<%= headerBGColor %>',<% } %>
+    publisher:'<%= publisherID %>'
+});
+</script>

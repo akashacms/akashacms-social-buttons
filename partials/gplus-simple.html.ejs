@@ -1,0 +1,17 @@
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js?onload=onLoadCallback';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+<g:plusone <%
+    if (typeof dataSize !== "undefined") { %>data-size="<%= dataSize %>"<% } 
+    if (typeof dataAnnotation !== "undefined") { %>data-annotation="<%= dataAnnotation %>"<% } 
+    if (typeof dataWidth !== "undefined") { %>data-width="<%= dataWidth %>"<% } 
+    if (typeof expandTo !== "undefined") { %>expandTo="<%= expandTo %>"<% } 
+    if (typeof dataCallback !== "undefined") { %>data-callback="<%= dataCallback %>"<% } 
+    if (typeof dataOnStartInteraction !== "undefined") { %>data-onstartinteraction="<%= dataOnStartInteraction %>"<% } 
+    if (typeof dataOnEndInteraction !== "undefined") { %>data-onendinteraction="<%= dataOnEndInteraction %>"<% } 
+    if (typeof dataRecommendations !== "undefined") { %>data-recommendations="<%= dataRecommendations %>"<% }
+    %> ></g:plusone>
