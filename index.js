@@ -37,6 +37,24 @@ module.exports.config = function(akasha, config) {
         if (callback) callback(undefined, val);
         return val;
     }
+    // https://twitter.com/about/resources/buttons#tweet
+    config.funcs.twitterShareButton = function(arg, callback) {
+        var val = akasha.partialSync(config, "tweetPage.html.ejs", arg);
+        if (callback) callback(undefined, val);
+        return val;
+    }
+    // https://twitter.com/about/resources/buttons#follow
+    config.funcs.twitterFollowButton = function(arg, callback) {
+        var val = akasha.partialSync(config, "twitter-follow.html.ejs", arg);
+        if (callback) callback(undefined, val);
+        return val;
+    }
+    // http://www.reddit.com/buttons/
+    config.funcs.redditThisButton = function(arg, callback) {
+        var val = akasha.partialSync(config, "reddit-this.html.ejs", arg);
+        if (callback) callback(undefined, val);
+        return val;
+    }
 }
 
 
