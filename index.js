@@ -27,31 +27,31 @@ module.exports.config = function(akasha, config) {
     config.root_partials.push(path.join(__dirname, 'partials'));
     
     config.funcs.sharethisButtons = function(arg, callback) {
-        var val = akasha.partialSync(config, "sharethis.html.ejs", arg);
+        var val = akasha.partialSync("sharethis.html.ejs", arg);
         if (callback) callback(undefined, val);
         return val;
     }
     // https://developers.google.com/+/web/+1button/
     config.funcs.googlePlusSimpleButton = function(arg, callback) {
-        var val = akasha.partialSync(config, "gplus-simple.html.ejs", arg);
+        var val = akasha.partialSync("gplus-simple.html.ejs", arg);
         if (callback) callback(undefined, val);
         return val;
     }
     // https://twitter.com/about/resources/buttons#tweet
     config.funcs.twitterShareButton = function(arg, callback) {
-        var val = akasha.partialSync(config, "tweetPage.html.ejs", arg);
+        var val = akasha.partialSync("tweetPage.html.ejs", arg);
         if (callback) callback(undefined, val);
         return val;
     }
     // https://twitter.com/about/resources/buttons#follow
     config.funcs.twitterFollowButton = function(arg, callback) {
-        var val = akasha.partialSync(config, "twitter-follow.html.ejs", arg);
+        var val = akasha.partialSync("twitter-follow.html.ejs", arg);
         if (callback) callback(undefined, val);
         return val;
     }
     // http://www.reddit.com/buttons/
     config.funcs.redditThisButton = function(arg, callback) {
-        var val = akasha.partialSync(config, "reddit-this.html.ejs", arg);
+        var val = akasha.partialSync("reddit-this.html.ejs", arg);
         if (callback) callback(undefined, val);
         return val;
     }
