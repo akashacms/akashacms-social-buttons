@@ -11,9 +11,11 @@
     "type": "git",
     "url": "git://github.com/akashacms/akashacms-social-buttons.git"
   },
-  "version": "0.4.0",
+  "version": "0.4.1",
   "engines": {
     "node": ">=0.10.1"
   },
-  "dependencies": { }
+  "dependencies": {
+    "async": "*"
+  }
 }
