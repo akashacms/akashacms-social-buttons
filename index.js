@@ -17,24 +17,28 @@
  *  limitations under the License.
  */
 
-var path     = require('path');
-var util     = require('util');
-var async    = require('async');
+'use strict';
 
-var akasha;
-var config;
-var logger;
+const path     = require('path');
+const util     = require('util');
+const async    = require('async');
+const akasha   = require('../akasharender');
 
-/**
- * Add ourselves to the config data.
- **/
-module.exports.config = function(_akasha, _config) {
-	akasha = _akasha;
-	config = _config;
-    logger = akasha.getLogger("social-buttons");
-    config.root_partials.push(path.join(__dirname, 'partials'));
-	return module.exports;
-};
+const log   = require('debug')('akasha:social-buttons-plugin');
+const error = require('debug')('akasha:error-social-buttons-plugin');
+
+module.exports = class SocialButtonsPlugin extends akasha.Plugin {
+	constructor() {
+		super("akashacms-social-buttons");
+	}
+	
+	configure(config) {
+		this._config = config;
+		config.addPartialsDir(path.join(__dirname, 'partials'));
+		config.addMahabhuta(module.exports.mahabhuta);
+		
+	}
+}
 
 module.exports.mahabhuta = [
 	function($, metadata, dirty, done) {
@@ -43,18 +47,17 @@ module.exports.mahabhuta = [
 		var elements = [];
 		$('twitter-share').each(function(i, elem) { elements[i] = elem; });
 		async.eachSeries(elements, function(element, next) {
-			akasha.partial("tweetPage.html.ejs", {
+			akasha.partial(metadata.config, "tweetPage.html.ejs", {
 				dataSize:     $(element).attr('size'),
 				dataVia:      $(element).attr('via'),
 				dataRelated:  $(element).attr('related'),
 				dataHashtags: $(element).attr('hashtags')
-			}, function(err, html) {
-				if (err) { logger.error(err); next(err); }
-				else {
-					$(element).replaceWith(html);
-					next();
-				}
-			});
+			})
+			.then(html => {
+				$(element).replaceWith(html);
+				next();
+			})
+			.catch(err => { error(err); next(err); });
 		},
 		function(err) {
 			if (err) done(err);
@@ -68,17 +71,16 @@ module.exports.mahabhuta = [
 		var elements = [];
 		$('twitter-follow').each(function(i, elem) { elements[i] = elem; });
 		async.eachSeries(elements, function(element, next) {
-			akasha.partial("twitter-follow.html.ejs", {
+			akasha.partial(metadata.config, "twitter-follow.html.ejs", {
 				dataSize:      $(element).attr('size'),
 				dataShowCount: $(element).attr('show-count'),
 				twitterHandle: $(element).attr('handle')
-			}, function(err, html) {
-				if (err) { logger.error(err); next(err); }
-				else {
-					$(element).replaceWith(html);
-					next();
-				}
-			});
+			})
+			.then(html => {
+				$(element).replaceWith(html);
+				next();
+			})
+			.catch(err => { error(err); next(err); });
 		},
 		function(err) {
 			if (err) done(err);
@@ -92,14 +94,12 @@ module.exports.mahabhuta = [
 		var elements = [];
 		$('reddit-this').each(function(i, elem) { elements[i] = elem; });
 		async.eachSeries(elements, function(element, next) {
-			akasha.partial("reddit-this.html", { },
-			function(err, html) {
-				if (err) { logger.error(err); next(err); }
-				else {
-					$(element).replaceWith(html);
-					next();
-				}
-			});
+			akasha.partial(metadata.config, "reddit-this.html", { })
+			.then(html => {
+				$(element).replaceWith(html);
+				next();
+			})
+			.catch(err => { error(err); next(err); });
 		},
 		function(err) {
 			if (err) done(err);
@@ -113,7 +113,7 @@ module.exports.mahabhuta = [
 		var elements = [];
 		$('gplus-simple').each(function(i, elem) { elements[i] = elem; });
 		async.eachSeries(elements, function(element, next) {
-			akasha.partial("gplus-simple.html.ejs", {
+			akasha.partial(metadata.config, "gplus-simple.html.ejs", {
 				dataSize:               $(element).attr('size'),
 				dataAnnotation:         $(element).attr('annotation'),
 				dataWidth:              $(element).attr('width'),
@@ -122,13 +122,12 @@ module.exports.mahabhuta = [
 				dataOnStartInteraction: $(element).attr('onstartinteraction'),
 				dataOnEndInteraction:   $(element).attr('onendinteraction'),
 				dataRecommendations:    $(element).attr('recommendations')
-			}, function(err, html) {
-				if (err) { logger.error(err); next(err); }
-				else {
-					$(element).replaceWith(html);
-					next();
-				}
-			});
+			})
+			.then(html => {
+				$(element).replaceWith(html);
+				next();
+			})
+			.catch(err => { error(err); next(err); });
 		},
 		function(err) {
 			if (err) done(err);
@@ -141,7 +140,7 @@ module.exports.mahabhuta = [
 		var elements = [];
 		$('sharethis').each(function(i, elem) { elements[i] = elem; });
 		async.eachSeries(elements, function(element, next) {
-			akasha.partial("sharethis.html.ejs", {
+			akasha.partial(metadata.config, "sharethis.html.ejs", {
 				urlToShare:           $(element).attr('url-to-share'),
 				titleToShare:         $(element).attr('title-to-share'),
 				imageToShare:         $(element).attr('image-to-share'),
@@ -155,13 +154,12 @@ module.exports.mahabhuta = [
 				headerBGColor:        $(element).attr('header-color-bg'),
 				publisherID:          $(element).attr('publisher-id'),
 				chiclets:             JSON.parse($(element).text()).chiclets
-			}, function(err, html) {
-				if (err) { logger.error(err); next(err); }
-				else {
-					$(element).replaceWith(html);
-					next();
-				}
-			});
+			})
+			.then(html => {
+				$(element).replaceWith(html);
+				next();
+			})
+			.catch(err => { error(err); next(err); });
 		},
 		function(err) {
 			if (err) done(err);
